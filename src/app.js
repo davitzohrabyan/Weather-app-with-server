@@ -20,7 +20,8 @@ app.use(express.static(publicDirectoryPath))
 app.get('', (req, res) => {
     res.render('index', {
         title: 'Weather app',
-        name: 'Zohrabyan Davit'
+        name: 'Zohrabyan Davit',
+        // vasya: ['asxdjia', 'alesjcaskl', 'sdac']
     })
 })
 
@@ -45,20 +46,22 @@ app.get('/weather', (req, res) => {
             error: 'You must provide an address'
         })
     } else {
-        geocode(req.query.address).then((message) => {
-            forecast(message.longitude, message.latitude).then((m) => {
-                res.send({
-                    forecast: m,
-                    location: message
+        geocode(req.query.address).then((messages) => {
+                const result = messages.map((message) => {
+                    return  forecast(message.longitude, message.latitude)
+                })
+                Promise.all(result).then((m) => {
+                    res.send({
+                        forecast: m,
+                        location: messages
                     })
-            }).catch((error) => {
-                res.send(error)
-            })
+                })
         }).catch((error) => {
             res.send(error)
         })
     }
 })
+
 
 app.get('/help/*', (req, res) => {
     res.render('404', {

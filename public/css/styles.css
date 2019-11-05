@@ -53,3 +53,13 @@ button {
     color: white;
     padding: 8px;
 }
+
+.messages {
+    border-top: 1px solid #eeeeee;
+    margin-top: 16px;
+    padding: 16px 0;
+}
+
+.line {
+    display: inline-block;
+}

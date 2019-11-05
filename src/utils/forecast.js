@@ -11,7 +11,7 @@ const forecast = (long, lat) => {
             } else {
                 resolve(body.daily.data[0].summary +
                     `It's currently ${body.currently.temperature} degrees out. 
-                There is a ${body.currently.precipProbability} % chance of rain`)
+                There is a ${Math.round(body.currently.precipProbability * 100)} % chance of rain`)
             }
         })
     })

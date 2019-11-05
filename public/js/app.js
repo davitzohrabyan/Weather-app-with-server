@@ -3,6 +3,8 @@ const search = document.querySelector('input')
 const messageOne = document.querySelector('#messageOne')
 const messageTwo = document.querySelector('#messageTwo')
 
+const messageToWrite = document.querySelector('#messageToWrite')
+
 weatherForm.addEventListener('submit', (e) => {
     e.preventDefault()
 
@@ -11,15 +13,18 @@ weatherForm.addEventListener('submit', (e) => {
     messageOne.textContent = 'Loading...'
     messageTwo.textContent = ''
 
-
     fetch('/weather?address=' + location)
         .then(response => {
         response.json().then(data => {
             if(data.error) {
                 messageOne.textContent = data.error
             } else {
-                messageOne.textContent = data.location.location
-                messageTwo.textContent = data.forecast.toString()
+                const msgArray = []
+                for(let i = 0; i < data.location.length; i++) {
+                    msgArray[i] = '<li>' +  data.location[i].location + ' :  ' + data.forecast[i] + '</li>'
+                }
+                messageOne.textContent = ''
+                messageToWrite.innerHTML = msgArray;
             }
         }).catch(error => {
             messageOne.textContent = 'Unable to find location. Try another search'
